@@ -2,14 +2,14 @@
 
 pragma solidity ^0.8.17;
 
-import "./rockpaperscissors.sol";
 import "./RPSToken.sol";
 
 contract RockPaperScissorsToken {
-
-    uint constant public BET_MIN        = 2e18;        // The minimum bet 2 ether
+    // note: 1 token = 0.5 ether
+    uint256 public TOTAL_COMMISSION = 0;         // Commission Fee for smart contract 1 ether
+    uint256 constant public BET_MIN = 2;        // The minimum bet 2 token
     uint constant public REVEAL_TIMEOUT = 10 minutes;  // Max delay of revelation phase
-    uint constant public COMMISSION_FEE = 1e18;        // Commission Fee for smart contract 1 ether
+    uint256 ContractBalance = 0;
 
     RPSToken rpsToken; 
 
@@ -24,6 +24,11 @@ contract RockPaperScissorsToken {
 
     enum Moves {None, Rock, Paper, Scissors}
     enum Outcomes {None, PlayerA, PlayerB, PlayerC, Draw, PlayerAB, PlayerBC, PlayerAC}   // Possible outcomes
+
+    // Players' comission fee 
+    uint256 comfeeA;
+    uint256 comfeeB;
+    uint256 comfeeC;
 
     // Players' addresses
     address payable playerA;
@@ -61,31 +66,41 @@ contract RockPaperScissorsToken {
         return rpsToken.balanceOf(msg.sender);
     }
 
-    function totalPrice() public view returns(uint256) {
-        return (BET_MIN + COMMISSION_FEE)/(5 * 10**17);
+    function getCommisionFee(uint256 inputBet) public view returns(uint256) {
+        return inputBet * 5 / 100;
     }
 
     // Register a player.
     // Return player's ID upon successful registration.
     function register(uint256 inputBet) public payable notAlreadyRegistered returns (uint) {
         uint256 checkBalance = userBalance(); // check current user's token balance 
+        uint256 cf = 1; // get comission fee 
+
         require(inputBet <= checkBalance,"Insufficent Funds"); // check if have sufficient amount to place bet 
-        require(checkBalance >= (BET_MIN + COMMISSION_FEE)/(5 * 10**17),"Bet needs to be >= value + comission fee."); // check valid bet 
+        require(checkBalance >= (BET_MIN + cf),"Bet needs to be >= value + comission fee."); // check valid bet 
+        
+        TOTAL_COMMISSION = TOTAL_COMMISSION + cf;
 
         if (playerA == address(0x0)) {
             playerA    = payable(msg.sender);
             initialBet = inputBet;
-            rpsToken.transfer(address(this), inputBet);
+            comfeeA = cf;
+            rpsToken.transfer(address(this), inputBet + cf);
+            // ContractBalance = ContractBalance + inputBet + cf;
             return 1;
         } else if (playerB == address(0x0)) {
             playerB = payable(msg.sender);
             secondBet = inputBet;
-            rpsToken.transfer(address(this), inputBet);
+            comfeeB = cf;
+            rpsToken.transfer(address(this), inputBet + cf);
+            // ContractBalance = ContractBalance + inputBet + cf;
             return 2;
         } else if(playerC == address(0x0)){
             playerC = payable(msg.sender);
             thirdBet = inputBet;
-            rpsToken.transfer(address(this), inputBet);
+            comfeeC = cf;
+            rpsToken.transfer(address(this), inputBet + cf);
+            // ContractBalance = ContractBalance + inputBet + cf;
             return 3;
         }
         return 0;
@@ -225,40 +240,54 @@ contract RockPaperScissorsToken {
         address payable addrC = playerC;
         uint betPlayerA       = initialBet;
         uint betPlayerB       = secondBet;
+        uint betPlayerC       = thirdBet;
         reset();  // Reset game before paying to avoid reentrancy attacks
-        pay(addrA, addrB, addrC, betPlayerA, betPlayerB, outcome);
+        pay(addrA, addrB, addrC, betPlayerA, betPlayerB, betPlayerC, outcome);
 
         return outcome;
     }
 
     // Pay the winner(s).
-    function pay(address payable addrA, address payable addrB,address payable addrC, uint betPlayerA, uint betPlayerB, Outcomes outcome) private {
+    function pay(address payable addrA, address payable addrB, address payable addrC, uint betPlayerA, uint betPlayerB, uint betPlayerC, Outcomes outcome) private {
         
-        uint halfBalance = ((address(this).balance - 3*COMMISSION_FEE) * 500 / 1000);
+        // uint halfBalance = ((address(this).balance - 3*COMMISSION_FEE) * 500 / 1000);
 
+        uint256 halfBalance = (getContractBalance() - TOTAL_COMMISSION) / 2; 
+
+        // A wins, gets the whole pool minus commission fee 
+        // B wins, gets the whole pool minus commission fee 
+        // C wins, gets the whole pool minus commission fee 
+        // AB win, A and B get half minus commission 
+        // BC win, B and C get half minus commission 
+        // AC win, A and C get half minus commission 
+        // draw then all players get back the original bet (minus commision fee) 
         if (outcome == Outcomes.PlayerA) {
-            rpsToken.transfer(addrA, address(this).balance - 3*COMMISSION_FEE);
+            rpsToken.transfer(addrA, getContractBalance() - TOTAL_COMMISSION); 
+
         } else if (outcome == Outcomes.PlayerB) {
-            addrB.transfer(addrB, address(this).balance - 3*COMMISSION_FEE); 
+            rpsToken.transfer(addrB, getContractBalance() - TOTAL_COMMISSION);
+
         } else if (outcome == Outcomes.PlayerC) {
-            addrC.transfer(address(this).balance - 3*COMMISSION_FEE);
-            
+            rpsToken.transfer(addrC, getContractBalance() - TOTAL_COMMISSION);
+
         } else if (outcome == Outcomes.PlayerAB) {
-            addrA.transfer(halfBalance);
-            addrB.transfer(halfBalance);
+            rpsToken.transfer(addrA, halfBalance);
+            rpsToken.transfer(addrB, halfBalance);
 
         } else if (outcome == Outcomes.PlayerBC) {
-            addrB.transfer(halfBalance);
-            addrC.transfer(halfBalance);
+            rpsToken.transfer(addrB, halfBalance);
+            rpsToken.transfer(addrC, halfBalance);
 
         } else if (outcome == Outcomes.PlayerAC) {
-            addrA.transfer(halfBalance);
-            addrC.transfer(halfBalance);
+            rpsToken.transfer(addrA, halfBalance);
+            rpsToken.transfer(addrC, halfBalance);
+
 
         } else {
-            addrA.transfer(betPlayerA - COMMISSION_FEE);
-            addrB.transfer(betPlayerB - COMMISSION_FEE);
-            addrC.transfer(address(this).balance - COMMISSION_FEE);
+            rpsToken.transfer(addrA, betPlayerA);
+            rpsToken.transfer(addrB, betPlayerB);
+            rpsToken.transfer(addrC, betPlayerC);
+
         }
     }
 
@@ -284,7 +313,7 @@ contract RockPaperScissorsToken {
 
     // Return contract balance
     function getContractBalance() public view returns (uint) {
-        return address(this).balance;
+        return rpsToken.balanceOf(address(this));
     }
 
     // Return player's ID
@@ -317,4 +346,11 @@ contract RockPaperScissorsToken {
         }
         return int(REVEAL_TIMEOUT);
     }
+
+    function div(uint256 a, uint256 b) internal pure returns (uint256) {
+    // assert(b > 0); // Solidity automatically throws when dividing by 0
+    // uint256 c = a / b;
+    // assert(a == b * c + a % b); // There is no case in which this doesn't hold
+    return a / b;
+  }
 }

@@ -1,0 +1,47 @@
+{
+	"compiler": {
+		"version": "0.8.18+commit.87f61d96"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"details": "Math operations with safety checks that throw on error",
+			"kind": "dev",
+			"methods": {},
+			"title": "SafeMath",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"src/ERC20.sol": "SafeMath"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"src/ERC20.sol": {
+			"keccak256": "0x37756ebfb7159b6beba9665c0ef5f71e4518af62a319a3ce8f29e8ed9f3ce054",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0d5d9f173fc3acd876f92c36f5e4446995afcce5be821e70d67d95cd168e729f",
+				"dweb:/ipfs/QmPF9ZvCLWM4FPhWmZx69yv9TYd7sssGVLGjMipcWXpeUT"
+			]
+		}
+	},
+	"version": 1
+}
