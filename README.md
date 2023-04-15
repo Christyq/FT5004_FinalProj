@@ -1,5 +1,10 @@
 # FT5004_FinalProj
 
+## Contents
+
+* [Description](#description)
+* [Usage](#usage)
+
 # Description
 The Rock Paper Scissors game implemented here is a 3-player version game. The smart contract is written in Solidity language in Remix IDE. This can be deployed onto Ethereum Blockchain. The game logic is as follows:
 
@@ -10,3 +15,8 @@ The Rock Paper Scissors game implemented here is a 3-player version game. The sm
 5. If one player plays a move (E.g. Rock) and the other 2 players play a different move (E.g., Scissors), the player who played Rock will win the game and receive all the money from the betting pool.
 6. If two players play the same move (E.g. Rock) and the remaining player played a different move (E.g., Scissors), the 2 players will win the game. Here the betting pool will be divided into half and given to each winner.
 7. The game is reset and can be played by new players.
+
+# Usage 
+1. This game uses a token called `RPSToken` to trade. 
+2. Buy RPStokens with function `TopUp`. You can check the balance of a wallet by calling the `balanceOf` function.
+![topup](images/topup.png)
