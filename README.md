@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Usage](#usage)
+* [Implementation](#implementation)
 
 # Description
 The Rock Paper Scissors game implemented here is a 3-player version game. The smart contract is written in Solidity language in Remix IDE. This can be deployed onto Ethereum Blockchain. The game logic is as follows:
@@ -36,3 +37,8 @@ And `password` is a string that the player must memorise.
 ![reveal](images/reveal.png)
 
 6. After the reveal process is completed, players can check outcome of the game with function `getOutcome`. Rewards will be distributed based on the game rule defined above. 
+7. The `inputs.py` file is used to generate SHA256 hash for players 
+
+## Implementation
+### Registration Phase 
+
