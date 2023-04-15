@@ -32,4 +32,5 @@ The platform will then deduct the amount of bet plus commission fee from the pla
 And `password` is a string that the player must memorise. 
 ![register](images/register.png)
 5. Only when all players have played then they can start revealing their moves with `reveal(string clearMove)`. The format of the expect input is `"move-password"`. Players can check if all players have played or revealed with functions `allPlayed` and `allRevealed`. 
+
 ![reveal](images/reveal.png)
