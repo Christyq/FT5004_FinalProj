@@ -41,4 +41,10 @@ And `password` is a string that the player must memorise.
 
 ## Implementation
 ### Registration Phase 
-
+A player can only register if he/she has not registered previously. Upon registering, the player gives permission to the platform to deduct bet and fees from his/her account.
+### Commit Phase 
+The commit phase is secured by the SHA256 hash function. Nobody will have access to his/her opponent's move before the reveal phase. With that being said, players should remember their passwords for the reveal phase.
+### Reveal Phase 
+After all players have been committed, any one of the players can start the reveal phase by entering their move and password. The platform will then validate if the input corresponds to the actual input from the commit phase. Note that there is time limit of 10mins for the reveal phase, if players fail to reveal within the time limit the reward will be split accordingly and give to those who have revealed. Note that the bet will not be returned if one fails to reveal.
+### Result Phase 
+When the reveal phase ends, the platform will announce the outcome with the function `getOutcome`. The reward policy will follow the game rules defined above. Note that for those who fail to reveal, it will be considered as automatically lose. 
