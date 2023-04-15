@@ -21,6 +21,7 @@ The Rock Paper Scissors game implemented here is a 3-player version game. The sm
 2. Buy RPStokens with function `TopUp`. Players can check the balance of a wallet by calling the `balanceOf(address)` function.
 ![topup](images/topup.png)
 3. Register with function `register()`. Player must send a bet that is greater than or equal to both the minimum `BET_MIN` and to the first player's bet (if defined). Player can check the minimum bet with function `BET_MIN`. Please note that there will be a 1 token commission fee charged upon registration, the commission fee is shown with `COMMISSION_FEE`. 
+
 ![bet](images/bet.png)
 
 The platform will then deduct the amount of bet plus commission fee from the player's account. Player can check the account balance with function `userBalance`.
@@ -31,3 +32,4 @@ The platform will then deduct the amount of bet plus commission fee from the pla
 And `password` is a string that the player must memorise. 
 ![register](images/register.png)
 5. Only when all players have played then they can start revealing their moves with `reveal(string clearMove)`. The format of the expect input is `"move-password"`. Players can check if all players have played or revealed with functions `allPlayed` and `allRevealed`. 
+![reveal](images/reveal.png)
