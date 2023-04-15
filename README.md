@@ -5,8 +5,13 @@
 * [Description](#description)
 * [Usage](#usage)
 * [Implementation](#implementation)
+    * [Registration Phase](#registration-phase)
+    * [Commit Phase](#commit-phase)
+    * [Reveal Phase](#reveal-phase)
+    * [Result Phase](#result-phase)
+    * [Helper Functions](#helper-functions)
 
-# Description
+## Description
 The Rock Paper Scissors game implemented here is a 3-player version game. The smart contract is written in Solidity language in Remix IDE. This can be deployed onto Ethereum Blockchain. The game logic is as follows:
 
 1. Player A places a bet and makes a move. Player A then waits for players B and C to place their bets and make corresponding moves, which are entered along with the password. 
@@ -17,7 +22,7 @@ The Rock Paper Scissors game implemented here is a 3-player version game. The sm
 6. If two players play the same move (E.g. Rock) and the remaining player played a different move (E.g., Scissors), the 2 players will win the game. Here the betting pool will be divided into half and given to each winner.
 7. The game is reset and can be played by new players.
 
-# Usage 
+## Usage 
 1. This game uses a token called `RPSToken` to trade. 
 2. Buy RPStokens with function `TopUp`. Players can check the balance of a wallet by calling the `balanceOf(address)` function.
 ![topup](images/topup.png)
@@ -48,3 +53,10 @@ The commit phase is secured by the SHA256 hash function. Nobody will have access
 After all players have been committed, any one of the players can start the reveal phase by entering their move and password. The platform will then validate if the input corresponds to the actual input from the commit phase. Note that there is time limit of 10mins for the reveal phase, if players fail to reveal within the time limit the reward will be split accordingly and give to those who have revealed. Note that the bet will not be returned if one fails to reveal.
 ### Result Phase 
 When the reveal phase ends, the platform will announce the outcome with the function `getOutcome`. The reward policy will follow the game rules defined above. Note that for those who fail to reveal, it will be considered as automatically lose. 
+
+## Helper Functions 
+1. `getContractBalance()`: Gets the balance of a player (in RPSToken)
+2. `whoAmI`: returns the player ID 
+3. `allPlayed()`: Return 'true' if both players have commited their move, 'false' otherwise.
+4. `allRevealed()`: Return 'true' if both players have revealed their move, 'false' otherwise.
+5. `revealTimeLeft()`: Return time left before the end of the revelation phase.
