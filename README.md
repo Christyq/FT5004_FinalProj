@@ -23,7 +23,6 @@ The Rock Paper Scissors game implemented here is a 3-player version game. The sm
 3. Register with function `register()`. Player must send a bet that is greater than or equal to both the minimum `BET_MIN` and to the first player's bet (if defined). Player can check the minimum bet with function `BET_MIN`. 
 Please note that there will be a 1 token commission fee charged upon registration, the commission fee is shown with `COMMISSION_FEE`. 
 ![bet](images/bet.png)
-
 The platform will then deduct the amount of bet plus commission fee from the player's account. Player can check the account balance with function `userBalance`.
 ![balance](images/balance.png)
 4. Commit the move with function `play(bytes32 encrMove)`. The format of `encrMove` is `"move-password"` hashed using the SHA256 hash. `move` is an integer ranges from 1 to 3, where 1 corresponds to Rock, 2 corresponds to Paper, and 3 corresponds to Scissors. 
