@@ -1,7 +1,7 @@
 # FT5004_FinalProj
 
 # Description
-The Rock Paper Scissors game implemented here is 3-player version game. The smart contract is written in Solidity language in Remix IDE. This can be deployed onto Ethereum Blockchain. The game logic is as follows:
+The Rock Paper Scissors game implemented here is a 3-player version game. The smart contract is written in Solidity language in Remix IDE. This can be deployed onto Ethereum Blockchain. The game logic is as follows:
 
 1. Player A places a bet and makes a move. Player A then waits for players B and C to place their bets and make corresponding moves, which are entered along with the password. 
 2. Once all 3 players make move, each of them reveal their move and player gets verified by the smart contract.
