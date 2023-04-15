@@ -155,11 +155,6 @@
 					},
 					{
 						"internalType": "address",
-						"name": "_spender",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
 						"name": "_to",
 						"type": "address"
 					},
@@ -211,11 +206,11 @@
 			]
 		},
 		"src/RPSToken.sol": {
-			"keccak256": "0xd81a269b583281b9b2a003016dff6ab3c4b9abda9002d097fb2e842edccbb13c",
+			"keccak256": "0xff89cec921e385fe480ff94a9a8e2a2b24634cb30c4f622e973b30a3603630ff",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1b78ba9b67f38deaa3da8f42f0b05565b145c63d3288def021c519bf3f649388",
-				"dweb:/ipfs/QmRRspTYnr7ANXa9N41d3Yb1C76QRQzyQfyr4npX62vFJG"
+				"bzz-raw://9e8b57a3f83140b631df203a484c3389f9cd6791eb62496bb771d51fbd6f084f",
+				"dweb:/ipfs/QmREm4BxUNbPiTmzqgVQN4z56PnDPKrWNHbS4HRC17AZjT"
 			]
 		}
 	},

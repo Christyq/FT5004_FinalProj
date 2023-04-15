@@ -7,7 +7,8 @@ import "./RPSToken.sol";
 contract RockPaperScissorsToken {
     // note: 1 token = 0.5 ether
     uint256 public TOTAL_COMMISSION = 0;         // Commission Fee for smart contract 1 ether
-    uint256 constant public BET_MIN = 2;        // The minimum bet 2 token
+    uint256 constant public COMMISSION_FEE = 1;
+    uint256 public BET_MIN = 2;        // The minimum bet 2 token
     uint constant public REVEAL_TIMEOUT = 10 minutes;  // Max delay of revelation phase
     uint256 ContractBalance = 0;
 
@@ -24,11 +25,6 @@ contract RockPaperScissorsToken {
 
     enum Moves {None, Rock, Paper, Scissors}
     enum Outcomes {None, PlayerA, PlayerB, PlayerC, Draw, PlayerAB, PlayerBC, PlayerAC}   // Possible outcomes
-
-    // Players' comission fee 
-    uint256 comfeeA;
-    uint256 comfeeB;
-    uint256 comfeeC;
 
     // Players' addresses
     address payable playerA;
@@ -66,44 +62,43 @@ contract RockPaperScissorsToken {
         return rpsToken.balanceOf(msg.sender);
     }
 
-    function getCommisionFee(uint256 inputBet) public view returns(uint256) {
-        return inputBet * 5 / 100;
-    }
-
     // Register a player.
     // Return player's ID upon successful registration.
-    function register(uint256 inputBet) public payable notAlreadyRegistered returns (uint) {
+    function register(uint256 inputBet) public notAlreadyRegistered returns (uint) {
         uint256 checkBalance = userBalance(); // check current user's token balance 
-        uint256 cf = 1; // get comission fee 
 
         require(inputBet <= checkBalance,"Insufficent Funds"); // check if have sufficient amount to place bet 
-        require(checkBalance >= (BET_MIN + cf),"Bet needs to be >= value + comission fee."); // check valid bet 
+        require(checkBalance >= (BET_MIN + COMMISSION_FEE),"Bet needs to be >= value + comission fee."); // check valid bet 
         
-        TOTAL_COMMISSION = TOTAL_COMMISSION + cf;
+        TOTAL_COMMISSION = TOTAL_COMMISSION + COMMISSION_FEE;
 
         if (playerA == address(0x0)) {
             playerA    = payable(msg.sender);
             initialBet = inputBet;
-            comfeeA = cf;
-            rpsToken.transfer(address(this), inputBet + cf);
-            // ContractBalance = ContractBalance + inputBet + cf;
+            BET_MIN = inputBet;
+            // rpsToken.approve(msg.sender, address(this), inputBet + COMMISSION_FEE);
+            // rpsToken.transfer(address(this), inputBet + COMMISSION_FEE);
             return 1;
         } else if (playerB == address(0x0)) {
             playerB = payable(msg.sender);
             secondBet = inputBet;
-            comfeeB = cf;
-            rpsToken.transfer(address(this), inputBet + cf);
-            // ContractBalance = ContractBalance + inputBet + cf;
+            // rpsToken.approve(msg.sender, address(this), inputBet + COMMISSION_FEE);
+            // rpsToken.transfer(address(this), inputBet + COMMISSION_FEE);
             return 2;
         } else if(playerC == address(0x0)){
             playerC = payable(msg.sender);
             thirdBet = inputBet;
-            comfeeC = cf;
-            rpsToken.transfer(address(this), inputBet + cf);
-            // ContractBalance = ContractBalance + inputBet + cf;
+            // rpsToken.approve(msg.sender, address(this), inputBet + COMMISSION_FEE);
+            // rpsToken.transfer(address(this), inputBet + COMMISSION_FEE);
             return 3;
         }
         return 0;
+    }
+
+    function transferFund(address player, uint256 bet) public payable {
+        require (player == playerA || player == playerB || player == playerC, "You have not registered!");
+        rpsToken.approve(player, tx.origin, bet + COMMISSION_FEE);
+        rpsToken.transferFrom(player, tx.origin, bet + COMMISSION_FEE);
     }
 
     /**************************************************************************/
@@ -287,7 +282,7 @@ contract RockPaperScissorsToken {
             rpsToken.transfer(addrA, betPlayerA);
             rpsToken.transfer(addrB, betPlayerB);
             rpsToken.transfer(addrC, betPlayerC);
-
+            
         }
     }
 
@@ -313,7 +308,7 @@ contract RockPaperScissorsToken {
 
     // Return contract balance
     function getContractBalance() public view returns (uint) {
-        return rpsToken.balanceOf(address(this));
+        return rpsToken.balanceOf(tx.origin);
     }
 
     // Return player's ID

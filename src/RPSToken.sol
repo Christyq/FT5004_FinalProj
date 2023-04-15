@@ -34,8 +34,8 @@ contract RPSToken {
         erc20Contract.transfer(_to, _value);
     }
 
-    function transferFrom(address _from, address _spender, address _to, uint256 value) public {
-        erc20Contract.DTtransferFrom(_from, _spender, _to, value);
+    function transferFrom(address _from, address _to, uint256 value) public {
+        erc20Contract.transferFrom(_from, _to, value);
     }
 
     function approve(address _owner, address _spender, uint256 _value) public returns (bool) {

@@ -31,6 +31,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "COMMISSION_FEE",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "REVEAL_TIMEOUT",
 				"outputs": [
 					{
@@ -76,25 +89,6 @@
 						"internalType": "bool",
 						"name": "",
 						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "inputBet",
-						"type": "uint256"
-					}
-				],
-				"name": "getCommisionFee",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -298,19 +292,19 @@
 			]
 		},
 		"src/RPSToken.sol": {
-			"keccak256": "0xd81a269b583281b9b2a003016dff6ab3c4b9abda9002d097fb2e842edccbb13c",
+			"keccak256": "0xff89cec921e385fe480ff94a9a8e2a2b24634cb30c4f622e973b30a3603630ff",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1b78ba9b67f38deaa3da8f42f0b05565b145c63d3288def021c519bf3f649388",
-				"dweb:/ipfs/QmRRspTYnr7ANXa9N41d3Yb1C76QRQzyQfyr4npX62vFJG"
+				"bzz-raw://9e8b57a3f83140b631df203a484c3389f9cd6791eb62496bb771d51fbd6f084f",
+				"dweb:/ipfs/QmREm4BxUNbPiTmzqgVQN4z56PnDPKrWNHbS4HRC17AZjT"
 			]
 		},
 		"src/rockpaperscissorsToken.sol": {
-			"keccak256": "0xc5e1f98e5235e780552803dfdebb5746549cf6ed0b6b1e80fd7fe23580a7d196",
+			"keccak256": "0x68866ccb8fb66e69a1c1c30d7eaa0c460b0c20e1527cceec753c303e86f62f35",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4f770b029796c8cfb160712797c0c42461a2a97cc7bc409494aeb7f636cb084b",
-				"dweb:/ipfs/QmeH6vQV6WQiYcfdyQXnxh6iQeSC5WqfBQBk2XW2h4nijm"
+				"bzz-raw://b0b435dfb3f9287651bd59253de36b1b06240009b33cdcf3d01e8fdc5ff91936",
+				"dweb:/ipfs/QmXajctZ66G1vJ8FUnGETWcuszLiQypZU59Pw9r5GY1Bce"
 			]
 		}
 	},
