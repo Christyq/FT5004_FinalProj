@@ -34,3 +34,5 @@ And `password` is a string that the player must memorise.
 5. Only when all players have played then they can start revealing their moves with `reveal(string clearMove)`. The format of the expect input is `"move-password"`. Players can check if all players have played or revealed with functions `allPlayed` and `allRevealed`. 
 
 ![reveal](images/reveal.png)
+
+6. After the reveal process is completed, players can check outcome of the game with function `getOutcome`. Rewards will be distributed based on the game rule defined above. 
