@@ -27,6 +27,7 @@ The Rock Paper Scissors game implemented here is a 3-player version game. The sm
 2. Buy RPStokens with function `TopUp`. Players can check the balance of a wallet by calling the `balanceOf(address)` function.
 
 ![topup](images/topup.png)
+
 3. Register with function `register()`. Player must send a bet that is greater than or equal to both the minimum `BET_MIN` and to the first player's bet (if defined). Player can check the minimum bet with function `BET_MIN`. Please note that there will be a 1 token commission fee charged upon registration, the commission fee is shown with `COMMISSION_FEE`. 
 
 ![bet](images/bet.png)
