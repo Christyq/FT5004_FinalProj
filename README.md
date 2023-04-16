@@ -37,7 +37,9 @@ The platform will then deduct the amount of bet plus commission fee from the pla
 
 4. Commit the move with function `play(bytes32 encrMove)`. The format of `encrMove` is `"move-password"` hashed using the SHA256 hash. `move` is an integer ranges from 1 to 3, where 1 corresponds to Rock, 2 corresponds to Paper, and 3 corresponds to Scissors. 
 And `password` is a string that the player must memorise. 
+
 ![register](images/register.png)
+
 5. Only when all players have played then they can start revealing their moves with `reveal(string clearMove)`. The format of the expect input is `"move-password"`. Players can check if all players have played or revealed with functions `allPlayed` and `allRevealed`. 
 
 ![reveal](images/reveal.png)
