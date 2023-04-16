@@ -1,4 +1,4 @@
-# FT5004_FinalProj
+# FT5004 Final Project
 
 ## Contents
 
